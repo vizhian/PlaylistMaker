@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Общее -->
+    <dimen name="padding_horizontal">16dp</dimen>
+    <dimen name="padding_bottom">18dp</dimen>
+
+    <dimen name="text_large">22sp</dimen>
+    <dimen name="text_medium">16sp</dimen>
+
+    <!-- Главное меню -->
+    <dimen name="main_menu_layout_height">0dp</dimen>
+    <dimen name="main_menu_layout_marginVertical">4dp</dimen>
+    <dimen name="main_menu_cornerRadius">16dp</dimen>
+    <dimen name="main_menu_iconPadding">4dp</dimen>
+
+    <!-- Меню -->
+    <dimen name="menu_head_height">48dp</dimen>
+    <dimen name="menu_head_padding">4dp</dimen>
+    <dimen name="menu_head_margin_bottom">24dp</dimen>
+    <dimen name="menu_button_layout_height">62dp</dimen>
+    <dimen name="menu_button_padding">0dp</dimen>
+    <dimen name="menu_button_corner_radius">0dp</dimen>
+    <dimen name="menu_button_elevation">0dp</dimen>
+
+</resources>
