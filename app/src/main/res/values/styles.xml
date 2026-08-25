@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Стиль для кнопок главного экрана -->
-    <style name="MainMenuButtonStyle">
+    <style name="MainMenuButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/main_menu_layout_height</item>
         <item name="android:layout_marginVertical">@dimen/main_menu_layout_marginVertical</item>

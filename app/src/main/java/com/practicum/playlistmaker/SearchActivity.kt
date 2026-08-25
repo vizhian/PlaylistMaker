@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
@@ -14,6 +15,7 @@ import androidx.core.view.WindowInsetsCompat
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var inputEditText: EditText
+    private var inputString = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,33 +40,36 @@ class SearchActivity : AppCompatActivity() {
                 clearButton.visibility = if (s.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
             }
 
-            override fun afterTextChanged(p0: Editable?) = Unit
+            override fun afterTextChanged(p0: Editable?) {
+                inputString = inputEditText.text.toString()
+            }
 
         }
 
         inputEditText.addTextChangedListener(searchWatcher)
 
-        clearButton.setOnClickListener { inputEditText.setText("") }
+        clearButton.setOnClickListener {
+            inputEditText.setText("")
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        val searchString = savedInstanceState.getString(SEARCH_STRING)
-        searchString?.let { inputEditText.setText(searchString) }
+        inputString = savedInstanceState.getString(SEARCH_STRING) ?: ""
+        if (inputString.isNotEmpty()) inputEditText.setText(inputString)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        val text = inputEditText.text
-
-        if (text.isNotEmpty()) outState.putString(SEARCH_STRING, text.toString())
+        if (inputString.isNotEmpty()) outState.putString(SEARCH_STRING, inputString)
     }
 
     companion object {
         const val SEARCH_STRING = "SEARCH_STRING"
     }
-
 
 }
