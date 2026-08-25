@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Стиль для кнопок главного экрана -->
+    <style name="MainMenuButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/main_menu_layout_height</item>
+        <item name="android:layout_marginVertical">@dimen/main_menu_layout_marginVertical</item>
+        <item name="android:layout_weight">@integer/main_menu_layout_weight</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:letterSpacing">@integer/main_menu_letter_spacing</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="cornerRadius">@dimen/corner_radius</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">@dimen/main_menu_iconPadding</item>
+        <item name="iconTint">@color/black</item>
+        <item name="rippleColor">@color/gray</item>
+    </style>
+
+    <!-- Стиль для кнопок экранов меню -->
+    <style name="MenuButtonStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/menu_button_layout_height</item>
+        <item name="android:elevation">@dimen/menu_button_elevation</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:letterSpacing">@integer/main_menu_letter_spacing</item>
+        <item name="android:padding">@dimen/menu_button_padding</item>
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="cornerRadius">@dimen/menu_button_corner_radius</item>
+        <item name="iconGravity">end</item>
+        <item name="iconTint">?attr/secondaryTextColor</item>
+    </style>
+
+    <!-- Стиль контейнера меню -->
+    <style name="MenuLinearLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingHorizontal">@dimen/padding_horizontal</item>
+    </style>
+
+</resources>

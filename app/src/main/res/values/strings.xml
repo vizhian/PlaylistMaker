@@ -1,8 +1,20 @@
 <resources>
     <string name="app_name">Playlist Maker</string>
     <string name="app_name_lowercase">Playlist maker</string>
+    
+    <string name="app_web_address">https://practicum.yandex.ru/android-developer/</string>
+
+    <string name="app_support_email">andrey-gi@yandex.ru</string>
+    <string name="app_support_email_subject">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="app_support_email_body">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+
+    <string name="app_user_agreement">https://yandex.ru/legal/practicum_offer/</string>
+
+    <string name="error_start_activity">Приложение для действия не найдено, действие отменено!</string>
 
     <string name="search">Поиск</string>
+    <string name="search_icon_description">Иконка поиска</string>
+    <string name="clear">Очистка</string>
     <string name="media_library">Медиатека</string>
     <string name="settings">Настройки</string>
 

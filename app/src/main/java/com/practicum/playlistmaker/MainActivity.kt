@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setButtonNavigation(R.id.main_button_settings, SettingsActivity::class)
     }
 
-    fun setButtonNavigation(id: Int, cls: KClass<*>) {
+    private fun setButtonNavigation(id: Int, cls: KClass<*>) {
         val button = findViewById<com.google.android.material.button.MaterialButton>(id)
         button.setOnClickListener {
             val intent = Intent(this, cls.java)
