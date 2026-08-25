@@ -3,8 +3,9 @@
     <style name="Base.Theme.PlaylistMaker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="android:windowBackground">@color/black</item>
         <item name="colorPrimary">@color/black</item>
-        <item name="colorOnPrimary"> @color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
         <item name="secondaryTextColor">@color/white</item>
         <item name="fontFamily">@font/ys_display_family</item>
     </style>
