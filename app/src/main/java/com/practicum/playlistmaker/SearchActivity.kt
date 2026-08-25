@@ -1,8 +1,6 @@
 package com.practicum.playlistmaker
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -11,6 +9,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.addTextChangedListener
 
 class SearchActivity : AppCompatActivity() {
 
@@ -29,24 +28,14 @@ class SearchActivity : AppCompatActivity() {
 
         initializeToolbar(R.string.search)
 
-        inputEditText = findViewById(R.id.inputEditText)
+        inputEditText = findViewById(R.id.input_edit_text)
         val clearButton = findViewById<ImageView>(R.id.clear_icon)
 
-        val searchWatcher = object : TextWatcher {
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-
-            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        inputEditText.addTextChangedListener(
+            onTextChanged = { s, _, _, _ ->
                 clearButton.visibility = if (s.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                inputString = inputEditText.text.toString()
-            }
-
-        }
-
-        inputEditText.addTextChangedListener(searchWatcher)
+            },
+            afterTextChanged = { inputString = inputEditText.text.toString() })
 
         clearButton.setOnClickListener {
             inputEditText.setText("")

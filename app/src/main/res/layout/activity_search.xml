@@ -32,7 +32,7 @@
                 app:tint="@color/search_bar_text" />
 
             <EditText
-                android:id="@+id/inputEditText"
+                android:id="@+id/input_edit_text"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/search_bar_height"
                 android:layout_weight="1"
@@ -50,10 +50,10 @@
                 android:layout_width="@dimen/search_bar_height"
                 android:layout_height="@dimen/search_bar_height"
                 android:layout_gravity="center"
-
                 android:contentDescription="@string/clear"
                 android:scaleType="center"
                 android:src="@drawable/ic_search_bar_clear"
+                android:visibility="invisible"
                 app:tint="@color/search_bar_text" />
 
         </LinearLayout>
