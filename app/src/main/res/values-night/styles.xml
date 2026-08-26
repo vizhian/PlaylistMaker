@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Цвета строки поиска -->
+    <style name="search_text_input_layout_color">
+        <item name="android:textColorHint">@color/black</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="hintTextColor">@color/black</item>
+        <item name="startIconTint">@color/black</item>
+    </style>
+
+</resources>
