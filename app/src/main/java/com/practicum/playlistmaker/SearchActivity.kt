@@ -42,6 +42,12 @@ class SearchActivity : AppCompatActivity() {
             val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
         }
+
+        val testTrackList = Track.getTestTrackList()
+
+        val trackRecycleView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.track_recycler_view)
+        trackRecycleView.adapter = TrackAdapter(testTrackList)
+
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
