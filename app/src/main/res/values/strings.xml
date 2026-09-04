@@ -23,6 +23,8 @@
     <string name="share_app">Поделиться приложением</string>
     <string name="write_to_support">Написать в поддержку</string>
     <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="move">Перейти</string>
+    <string name="album_cover">Обложка альбома</string>
 
 
 </resources>

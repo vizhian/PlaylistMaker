@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/track_element_height">
+
+    <ImageView
+        android:id="@+id/track_art"
+        android:layout_width="@dimen/track_element_art_size"
+        android:layout_height="@dimen/track_element_art_size"
+        android:contentDescription="@string/album_cover"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/placeholder" />
+
+    <TextView
+        android:id="@+id/track_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@color/track_list_track_name"
+        android:textFontWeight="400"
+        android:textSize="@dimen/text_medium"
+        app:layout_constraintBottom_toTopOf="@id/artist_name"
+        app:layout_constraintEnd_toStartOf="@id/track_move"
+        app:layout_constraintStart_toEndOf="@id/track_art"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Smells Like Teen Spirit" />
+
+    <TextView
+        android:id="@+id/artist_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/small_margin"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="?attr/secondaryTextColor"
+        android:textFontWeight="400"
+        android:textSize="@dimen/text_small"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/dot"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/track_art"
+        app:layout_constraintTop_toBottomOf="@id/track_name"
+        tools:text="Nirvana" />
+
+    <ImageView
+        android:id="@+id/dot"
+        android:layout_width="@dimen/track_element_dot_size"
+        android:layout_height="@dimen/track_element_dot_size"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_circle"
+        app:layout_constraintBottom_toBottomOf="@id/artist_name"
+        app:layout_constraintEnd_toStartOf="@id/track_time"
+        app:layout_constraintStart_toEndOf="@id/artist_name"
+        app:layout_constraintTop_toTopOf="@id/artist_name"
+        app:tint="?attr/secondaryTextColor" />
+
+    <TextView
+        android:id="@+id/track_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxWidth="50dp"
+        android:textColor="?attr/secondaryTextColor"
+        android:textFontWeight="400"
+        android:textSize="@dimen/text_small"
+        app:layout_constraintBottom_toBottomOf="@id/dot"
+        app:layout_constraintEnd_toStartOf="@id/track_move"
+        app:layout_constraintStart_toEndOf="@id/dot"
+        app:layout_constraintTop_toTopOf="@id/dot"
+        tools:text="5:01" />
+
+    <ImageButton
+        android:id="@+id/track_move"
+        android:layout_width="@dimen/track_element_move_button_size"
+        android:layout_height="match_parent"
+        android:background="?attr/colorPrimary"
+        android:contentDescription="@string/move"
+        android:src="@drawable/ic_arrow_forward"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/secondaryTextColor" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

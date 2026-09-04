@@ -11,7 +11,7 @@
         android:id="@+id/toolbar_button_arrow_back"
         android:layout_width="@dimen/menu_head_height"
         android:layout_height="@dimen/menu_head_height"
-        android:backgroundTint="?attr/colorPrimary"
+        android:background="?attr/colorPrimary"
         android:contentDescription="@string/back"
         android:src="@drawable/ic_arrow_back"
         app:tint="?attr/colorOnPrimary" />

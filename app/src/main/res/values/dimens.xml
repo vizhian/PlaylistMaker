@@ -4,9 +4,11 @@
     <dimen name="padding_horizontal">16dp</dimen>
     <dimen name="padding_bottom">16dp</dimen>
     <dimen name="corner_radius">16dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
 
     <dimen name="text_large">22sp</dimen>
     <dimen name="text_medium">16sp</dimen>
+    <dimen name="text_small">11sp</dimen>
 
     <!-- Главное меню -->
     <dimen name="main_menu_layout_height">0dp</dimen>
@@ -23,6 +25,13 @@
     <dimen name="menu_button_elevation">0dp</dimen>
     <dimen name="menu_corner_radius">8dp</dimen>
 
+    <!-- Поиск, элемент списка треков -->
     <dimen name="search_bar_height">36dp</dimen>
+
+    <dimen name="track_element_height">60dp</dimen>
+    <dimen name="track_element_art_size">44dp</dimen>
+    <dimen name="track_element_dot_size">14dp</dimen>
+    <dimen name="track_element_move_button_size">24dp</dimen>
+
 
 </resources>

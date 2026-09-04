@@ -3,4 +3,5 @@
     <color name="main_menu_background">#1A1B22</color>
     <color name="search_bar_background">#FFFFFFFF</color>
     <color name="search_bar_text">#1A1B22</color>
+    <color name="track_list_track_name">#FFFFFF</color>
 </resources>
