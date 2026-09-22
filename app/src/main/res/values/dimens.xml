@@ -7,7 +7,9 @@
     <dimen name="small_margin">8dp</dimen>
 
     <dimen name="text_large">22sp</dimen>
+    <dimen name="text_ml">20sp</dimen>
     <dimen name="text_medium">16sp</dimen>
+    <dimen name="text_sm">14sp</dimen>
     <dimen name="text_small">11sp</dimen>
 
     <!-- Главное меню -->
@@ -32,6 +34,5 @@
     <dimen name="track_element_art_size">44dp</dimen>
     <dimen name="track_element_dot_size">14dp</dimen>
     <dimen name="track_element_move_button_size">24dp</dimen>
-
 
 </resources>

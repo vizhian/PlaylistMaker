@@ -10,14 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class TrackAdapter(private var trackList: List<Track>) :
-    RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
+class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
+    private val trackList = mutableListOf<Track>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
-
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.track_list_element, parent, false)
-
         return TrackViewHolder(view)
     }
 
@@ -27,8 +25,13 @@ class TrackAdapter(private var trackList: List<Track>) :
 
     override fun getItemCount() = trackList.size
 
-    class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    fun updateTrackList(newTrackList: List<Track>) {
+        trackList.clear()
+        trackList.addAll(newTrackList)
+        notifyDataSetChanged()
+    }
 
+    class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val trackNameView = itemView.findViewById<TextView>(R.id.track_name)
         private val artistNameView = itemView.findViewById<TextView>(R.id.artist_name)
         private val trackTimeView = itemView.findViewById<TextView>(R.id.track_time)

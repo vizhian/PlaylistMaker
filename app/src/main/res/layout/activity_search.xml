@@ -43,7 +43,9 @@
                 android:autofillHints="search"
                 android:background="@null"
                 android:hint="@string/search"
+                android:imeOptions="actionDone"
                 android:inputType="text"
+                android:maxLines="1"
                 android:textColor="@color/black"
                 android:textColorHint="@color/search_bar_text"
                 android:textFontWeight="500"
@@ -62,13 +64,56 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/track_recycler_view"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginVertical="@dimen/small_margin"
-            android:layout_weight="1"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/track_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="@dimen/small_margin"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/track_list_element" />
+
+            <LinearLayout
+                android:id="@+id/search_place_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="102dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/search_place_holder_ic"
+                    style="@style/search_place_holder"
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/ic_search_not_found" />
+
+                <TextView
+                    android:id="@+id/search_place_holder_text"
+                    style="@style/search_place_holder"
+                    android:layout_marginTop="16dp"
+                    tools:text="Ничего не нашлось" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/search_place_holder_update_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/update"
+                    android:textAllCaps="false"
+                    android:textColor="?attr/android:windowBackground"
+                    android:textSize="@dimen/text_sm"
+                    app:backgroundTint="@color/search_place_holder"
+                    app:cornerRadius="54dp"
+                    app:rippleColor="@color/search_bar_text" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 
