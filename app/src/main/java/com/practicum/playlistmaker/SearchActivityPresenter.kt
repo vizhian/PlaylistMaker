@@ -3,7 +3,10 @@ package com.practicum.playlistmaker
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class SearchActivityPresenter(private val repository: Repository) {
+class SearchActivityPresenter(
+    private val repository: Repository,
+    private val historyStorage: SearchHistoryStorage
+) {
     private val _screenState: MutableLiveData<SearchScreenState> =
         MutableLiveData(SearchScreenState.Start)
     val screenState: LiveData<SearchScreenState> = _screenState
@@ -28,6 +31,22 @@ class SearchActivityPresenter(private val repository: Repository) {
             }
         }
     }
+
+    fun showHistory() {
+        val trackHistory = historyStorage.tracks
+        if (!trackHistory.isEmpty()) {
+            _screenState.value = SearchScreenState.History(trackHistory)
+        }
+    }
+
+    fun addTrackToHistory(track: Track) {
+        historyStorage.addTrack(track)
+    }
+
+    fun clearTrackHistory() {
+        historyStorage.clearAll()
+        _screenState.value = SearchScreenState.Start
+    }
 }
 
 sealed class SearchScreenState {
@@ -35,4 +54,5 @@ sealed class SearchScreenState {
     class Successful(val trackList: List<Track>) : SearchScreenState()
     object Empty : SearchScreenState()
     object Error : SearchScreenState()
+    class History(val trackList: List<Track>) : SearchScreenState()
 }

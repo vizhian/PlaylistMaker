@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.net.toUri
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(svedInstanceState: Bundle?) {
@@ -24,7 +26,7 @@ class SettingsActivity : AppCompatActivity() {
         initializeToolbar(R.string.settings)
 
         val buttonShareApp =
-            findViewById<com.google.android.material.button.MaterialButton>(R.id.settings_button_share_app)
+            findViewById<MaterialButton>(R.id.settings_button_share_app)
         buttonShareApp.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND)
             intent.type = "text/plain"
@@ -33,7 +35,7 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val buttonWriteToSupport =
-            findViewById<com.google.android.material.button.MaterialButton>(R.id.settings_button_write_to_support)
+            findViewById<MaterialButton>(R.id.settings_button_write_to_support)
         buttonWriteToSupport.setOnClickListener {
             val intent = Intent(Intent.ACTION_SENDTO)
             intent.data = "mailto:".toUri()
@@ -45,12 +47,19 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val buttonUserAgreement =
-            findViewById<com.google.android.material.button.MaterialButton>(R.id.settings_button_user_agreement)
+            findViewById<MaterialButton>(R.id.settings_button_user_agreement)
         buttonUserAgreement.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = getString(R.string.app_user_agreement).toUri()
 
             safelyStartActivity(intent)
+        }
+
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitchMaterial)
+        val app = (application as MyApp)
+        themeSwitcher.isChecked = app.isDarkTheme()
+        themeSwitcher.setOnCheckedChangeListener { _, checked ->
+            app.switchTheme(checked)
         }
     }
 

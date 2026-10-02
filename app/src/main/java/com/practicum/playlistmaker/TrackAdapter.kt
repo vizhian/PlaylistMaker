@@ -6,17 +6,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
+class TrackAdapter(private val onElementClick: (Track) -> Unit) :
+    RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
     private val trackList = mutableListOf<Track>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.track_list_element, parent, false)
-        return TrackViewHolder(view)
+        return TrackViewHolder(view, onElementClick)
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
@@ -31,11 +33,19 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
         notifyDataSetChanged()
     }
 
-    class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class TrackViewHolder(itemView: View, onElementClick: (Track) -> Unit) :
+        RecyclerView.ViewHolder(itemView) {
+        private var track: Track? = null
+        private val trackListElement =
+            itemView.findViewById<ConstraintLayout>(R.id.track_list_element)
         private val trackNameView = itemView.findViewById<TextView>(R.id.track_name)
         private val artistNameView = itemView.findViewById<TextView>(R.id.artist_name)
         private val trackTimeView = itemView.findViewById<TextView>(R.id.track_time)
         private val trackArtView = itemView.findViewById<ImageView>(R.id.track_art)
+
+        init {
+            trackListElement.setOnClickListener { track?.let { onElementClick(it) } }
+        }
 
         private val dpRadius: RoundedCorners = RoundedCorners(
             TypedValue.applyDimension(
@@ -46,6 +56,9 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
         )
 
         fun bind(track: Track) {
+
+            this.track = track
+
             trackNameView.text = track.trackName
             artistNameView.text = track.artistName
             trackTimeView.text = track.trackTime
