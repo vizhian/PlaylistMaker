@@ -28,6 +28,8 @@
     <string name="user_agreement">Пользовательское соглашение</string>
     <string name="move">Перейти</string>
     <string name="album_cover">Обложка альбома</string>
+    <string name="your_searching">Вы искали</string>
+    <string name="clear_history">Очистить историю</string>
 
 
 </resources>

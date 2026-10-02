@@ -6,11 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
-class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
+class TrackAdapter( private val onElementClick: (Track) -> Unit) : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
     private val trackList = mutableListOf<Track>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrackViewHolder {
@@ -20,7 +21,7 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
-        holder.bind(trackList[position])
+        holder.bind(trackList[position], { onElementClick(trackList[position]) })
     }
 
     override fun getItemCount() = trackList.size
@@ -32,6 +33,7 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
     }
 
     class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val trackListElement = itemView.findViewById<ConstraintLayout>(R.id.track_list_element)
         private val trackNameView = itemView.findViewById<TextView>(R.id.track_name)
         private val artistNameView = itemView.findViewById<TextView>(R.id.artist_name)
         private val trackTimeView = itemView.findViewById<TextView>(R.id.track_time)
@@ -45,10 +47,12 @@ class TrackAdapter : RecyclerView.Adapter<TrackAdapter.TrackViewHolder>() {
             ).toInt()
         )
 
-        fun bind(track: Track) {
+        fun bind(track: Track, elementClickListener: () -> Unit) {
             trackNameView.text = track.trackName
             artistNameView.text = track.artistName
             trackTimeView.text = track.trackTime
+
+            trackListElement.setOnClickListener { elementClickListener() }
 
             Glide.with(trackArtView)
                 .load(track.artworkUrl100)

@@ -15,12 +15,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var presenter: SearchActivityPresenter
-    private lateinit var adapter: TrackAdapter
+    private lateinit var trackAdapter: TrackAdapter
+    private lateinit var clearButtonAdapter: ClearButtonAdapter
 
     private var inputString = ""
 
@@ -31,6 +33,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeHolderImage: ImageView
     private lateinit var placeHolderText: TextView
     private lateinit var placeHolderButton: MaterialButton
+    private lateinit var searchHistoryHeader: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,8 +47,10 @@ class SearchActivity : AppCompatActivity() {
 
         initializeToolbar(R.string.search)
 
-        presenter = SearchActivityPresenter((application as MyApp).repository)
-        adapter = TrackAdapter()
+        val myApp = (application as MyApp)
+        presenter = SearchActivityPresenter(myApp.repository, myApp.historyStorage)
+        trackAdapter = TrackAdapter ( { track -> presenter.addTrackToHistory(track)})
+        clearButtonAdapter = ClearButtonAdapter({presenter.clearTrackHistory()})
 
         initializeViews()
 
@@ -73,8 +78,9 @@ class SearchActivity : AppCompatActivity() {
         placeHolderImage = findViewById(R.id.search_place_holder_ic)
         placeHolderText = findViewById(R.id.search_place_holder_text)
         placeHolderButton = findViewById(R.id.search_place_holder_update_button)
+        searchHistoryHeader = findViewById(R.id.search_history_header)
 
-        trackRecyclerView.adapter = adapter
+        trackRecyclerView.adapter = ConcatAdapter(trackAdapter, clearButtonAdapter)
 
         inputEditText.addTextChangedListener(
             onTextChanged = { s, _, _, _ ->
@@ -92,11 +98,15 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
+        inputEditText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus && inputEditText.text.isEmpty()) presenter.showHistory()
+        }
+
         clearButton.setOnClickListener {
             inputEditText.setText("")
             val imm = getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(inputEditText.windowToken, 0)
-            presenter.updateTrackList("")
+            presenter.showHistory()
         }
 
         placeHolderButton.setOnClickListener { presenter.updateTrackList(inputString) }
@@ -105,23 +115,32 @@ class SearchActivity : AppCompatActivity() {
     private fun render(screenState: SearchScreenState) {
         when (screenState) {
             is SearchScreenState.Start -> {
-                adapter.updateTrackList(emptyList())
+                trackAdapter.updateTrackList(emptyList())
                 hidePlaceHolder()
+                hideSearchHistoryViewsElements()
             }
 
             is SearchScreenState.Empty -> {
-                adapter.updateTrackList(emptyList())
+                trackAdapter.updateTrackList(emptyList())
                 showPlaceHolder(R.drawable.ic_search_not_found, R.string.not_found)
+                hideSearchHistoryViewsElements()
             }
 
             is SearchScreenState.Error -> {
-                adapter.updateTrackList(emptyList())
+                trackAdapter.updateTrackList(emptyList())
                 showPlaceHolder(R.drawable.ic_search_no_connect, R.string.no_connect, true)
+                hideSearchHistoryViewsElements()
             }
 
             is SearchScreenState.Successful -> {
-                adapter.updateTrackList(screenState.trackList)
+                trackAdapter.updateTrackList(screenState.trackList)
                 hidePlaceHolder()
+                hideSearchHistoryViewsElements()
+            }
+
+            is SearchScreenState.History -> {
+                trackAdapter.updateTrackList(screenState.trackList)
+                showSearchHistoryViewsElements()
             }
         }
     }
@@ -139,6 +158,16 @@ class SearchActivity : AppCompatActivity() {
         placeHolderImage.setImageResource(iconId)
         placeHolderText.text = getString(textId)
         placeHolderButton.visibility = if (visibleButton) View.VISIBLE else View.INVISIBLE
+    }
+
+    private fun hideSearchHistoryViewsElements() {
+        searchHistoryHeader.visibility = View.GONE
+        clearButtonAdapter.visible = false
+    }
+
+    private fun showSearchHistoryViewsElements() {
+        searchHistoryHeader.visibility = View.VISIBLE
+        clearButtonAdapter.visible = true
     }
 
     companion object {
