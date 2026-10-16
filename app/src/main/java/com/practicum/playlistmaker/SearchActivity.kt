@@ -1,5 +1,6 @@
 package com.practicum.playlistmaker
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -49,8 +50,16 @@ class SearchActivity : AppCompatActivity() {
 
         val myApp = (application as MyApp)
         presenter = SearchActivityPresenter(myApp.repository, myApp.historyStorage)
-        trackAdapter = TrackAdapter ( { track -> presenter.addTrackToHistory(track)})
-        clearButtonAdapter = ClearButtonAdapter({presenter.clearTrackHistory()})
+        trackAdapter = TrackAdapter { track ->
+            presenter.addTrackToHistory(track)
+
+            val intent = Intent(
+                this@SearchActivity,
+                AudioPlayerActivity::class.java
+            ).apply { putExtra(Track.EXTRA_TRACK, track) }
+            startActivity(intent)
+        }
+        clearButtonAdapter = ClearButtonAdapter({ presenter.clearTrackHistory() })
 
         initializeViews()
 
@@ -82,12 +91,9 @@ class SearchActivity : AppCompatActivity() {
 
         trackRecyclerView.adapter = ConcatAdapter(trackAdapter, clearButtonAdapter)
 
-        inputEditText.addTextChangedListener(
-            onTextChanged = { s, _, _, _ ->
-                clearButton.visibility = if (s.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
-            },
-            afterTextChanged = { inputString = inputEditText.text.toString() }
-        )
+        inputEditText.addTextChangedListener(onTextChanged = { s, _, _, _ ->
+            clearButton.visibility = if (s.isNullOrEmpty()) View.INVISIBLE else View.VISIBLE
+        }, afterTextChanged = { inputString = inputEditText.text.toString() })
 
         inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -150,9 +156,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun showPlaceHolder(
-        @DrawableRes iconId: Int,
-        @StringRes textId: Int,
-        visibleButton: Boolean = false
+        @DrawableRes iconId: Int, @StringRes textId: Int, visibleButton: Boolean = false
     ) {
         placeHolder.visibility = View.VISIBLE
         placeHolderImage.setImageResource(iconId)
