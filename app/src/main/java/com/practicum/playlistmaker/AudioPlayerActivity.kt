@@ -99,7 +99,7 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun uploadTrackArt() {
         Glide.with(trackArt)
-            .load(track.artworkUrl525)
+            .load(track.artworkUrl512)
             .placeholder(R.drawable.track_placeholder)
             .transform(dpRadiusTrackArt)
             .into(trackArt)
