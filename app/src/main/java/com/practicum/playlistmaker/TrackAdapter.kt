@@ -65,9 +65,8 @@ class TrackAdapter(private val onElementClick: (Track) -> Unit) :
 
             Glide.with(trackArtView)
                 .load(track.artworkUrl100)
-                .placeholder(R.drawable.placeholder)
+                .placeholder(R.drawable.track_placeholder)
                 .transform(dpRadius)
-                .fitCenter()
                 .into(trackArtView)
         }
     }

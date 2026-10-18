@@ -70,4 +70,28 @@
 
     </style>
 
+    <!-- Стиль имен полей описания трека на экране плеера -->
+    <style name="track_info_name">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">@dimen/text_sm</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:layout_marginStart">@dimen/medium_margin</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:maxLines">1</item>
+
+    </style>
+
+    <style name="track_info_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textFontWeight">400</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">@dimen/text_sm</item>
+        <item name="android:maxLines">1</item>
+        <item name="layout_constrainedWidth">true</item>
+        <item name="android:layout_marginEnd">@dimen/medium_margin</item>
+    </style>
+
 </resources>

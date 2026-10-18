@@ -14,7 +14,7 @@
     <dimen name="text_ml">20sp</dimen>
     <dimen name="text_medium">16sp</dimen>
     <dimen name="text_sm">14sp</dimen>
-    <dimen name="text_small">11sp</dimen>
+    <dimen name="text_small">12sp</dimen>
 
     <!-- Главное меню -->
     <dimen name="main_menu_layout_height">0dp</dimen>
