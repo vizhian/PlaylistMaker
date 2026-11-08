@@ -17,6 +17,8 @@ class SearchActivityPresenter(
             return
         }
 
+        _screenState.value = SearchScreenState.InProgress
+
         repository.updateTrackList(searchString) { repositoryResult ->
             when (repositoryResult) {
                 is RepositoryResult.Error -> _screenState.value = SearchScreenState.Error
@@ -51,6 +53,7 @@ class SearchActivityPresenter(
 
 sealed class SearchScreenState {
     object Start : SearchScreenState()
+    object InProgress: SearchScreenState()
     class Successful(val trackList: List<Track>) : SearchScreenState()
     object Empty : SearchScreenState()
     object Error : SearchScreenState()
