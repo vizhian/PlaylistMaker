@@ -23,7 +23,13 @@ class AudioPlayer(val url: String) {
     ) {
         if (state == STATE_RELEASED) return
 
-        player.setDataSource(url)
+        try {
+            player.setDataSource(url)
+        } catch(_: Exception) {
+            state = STATE_RELEASED
+            errorListener(0, 0)
+            return
+        }
 
         player.setOnPreparedListener {
             if (playerReleased()) return@setOnPreparedListener
