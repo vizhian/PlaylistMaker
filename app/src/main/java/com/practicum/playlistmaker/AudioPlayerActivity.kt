@@ -1,23 +1,31 @@
 package com.practicum.playlistmaker
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.BundleCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import kotlinx.coroutines.Runnable
+import java.sql.Date
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 class AudioPlayerActivity : AppCompatActivity() {
-
     private lateinit var track: Track
-
+    private val audioPlayer by lazy { AudioPlayer(track.previewUrl) }
     private val dpRadiusTrackArt: RoundedCorners by lazy {
         RoundedCorners(
             TypedValue.applyDimension(
@@ -27,7 +35,20 @@ class AudioPlayerActivity : AppCompatActivity() {
             ).toInt()
         )
     }
-
+    private val handler by lazy { Handler(Looper.getMainLooper()) }
+    private val simpleDateFormat by lazy {
+        SimpleDateFormat("mm:ss", Locale.ROOT).apply {
+            timeZone = TimeZone.getTimeZone("UTC")
+        }
+    }
+    private val updateTrackTimeTask: Runnable by lazy {
+        Runnable {
+            val currentMs = audioPlayer.getCurrentPosition()
+            if (currentMs < 0) return@Runnable
+            currentTrackTime.text = simpleDateFormat.format(Date(currentMs.toLong()))
+            handler.postDelayed(updateTrackTimeTask, UPDATE_CURRENT_TRACK_TIME_DELAY)
+        }
+    }
     private val trackArt: ImageView by lazy { findViewById(R.id.track_art) }
     private val trackName: TextView by lazy { findViewById(R.id.track_name) }
     private val artistName: TextView by lazy { findViewById(R.id.artist_name) }
@@ -67,13 +88,48 @@ class AudioPlayerActivity : AppCompatActivity() {
         uploadTrackArt()
         trackName.text = track.trackName
         artistName.text = track.artistName
-        currentTrackTime.text = track.trackTime
+
+        playButton.setOnClickListener {
+            audioPlayer.playback()
+            updateState()
+        }
 
         initializeTrackInfoElement(trackTime, trackTimeValue, track.trackTime)
         initializeTrackInfoElement(trackAlbum, trackAlbumValue, track.collectionName)
         initializeTrackInfoElement(trackYear, trackYearValue, track.releaseYear)
         initializeTrackInfoElement(trackGenre, trackGenreValue, track.primaryGenreName)
         initializeTrackInfoElement(trackCountry, trackCountryValue, track.country)
+
+        updateState()
+
+        audioPlayer.preparePlayer(
+            prepareListener = {
+                updateState()
+            },
+            completionListener = {
+                updateState()
+            },
+            errorListener = { what, extra ->
+                updateState()
+                Toast.makeText(
+                    this,
+                    "Error media player, what $what, extra $extra",
+                    Toast.LENGTH_LONG
+                ).show()
+            },
+        )
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        audioPlayer.pause()
+        updateState()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        audioPlayer.releasePlayer()
     }
 
     private fun initializeTrack(): Boolean {
@@ -104,5 +160,54 @@ class AudioPlayerActivity : AppCompatActivity() {
             .transform(dpRadiusTrackArt)
             .into(trackArt)
     }
+
+    private fun updateState() {
+        when (audioPlayer.state) {
+            AudioPlayer.STATE_DEFAULT -> {
+                configurePlayButton(false, R.drawable.ic_track_play_button)
+                stopUpdateCurrentTrackTime()
+            }
+
+            AudioPlayer.STATE_PREPARED -> {
+                configurePlayButton(true, R.drawable.ic_track_play_button)
+                stopUpdateCurrentTrackTime()
+                currentTrackTime.text = DEFAULT_CURRENT_TRACK_TIME
+            }
+
+            AudioPlayer.STATE_PLAYING -> {
+                configurePlayButton(true, R.drawable.ic_track_pause_button)
+                startUpdateCurrentTrackTime()
+            }
+
+            AudioPlayer.STATE_PAUSED -> {
+                configurePlayButton(true, R.drawable.ic_track_play_button)
+                stopUpdateCurrentTrackTime()
+            }
+
+            AudioPlayer.STATE_RELEASED -> {
+                configurePlayButton(false, R.drawable.ic_track_play_button)
+                stopUpdateCurrentTrackTime()
+            }
+        }
+    }
+
+    private fun configurePlayButton(isEnabled: Boolean, @DrawableRes src: Int) {
+        playButton.isEnabled = isEnabled
+        playButton.setImageResource(src)
+    }
+
+    private fun startUpdateCurrentTrackTime() {
+        handler.postDelayed(updateTrackTimeTask, UPDATE_CURRENT_TRACK_TIME_DELAY)
+    }
+
+    private fun stopUpdateCurrentTrackTime() {
+        handler.removeCallbacks(updateTrackTimeTask)
+    }
+
+    companion object {
+        private const val UPDATE_CURRENT_TRACK_TIME_DELAY = 500L
+        private const val DEFAULT_CURRENT_TRACK_TIME = "00:00"
+    }
+
 }
 

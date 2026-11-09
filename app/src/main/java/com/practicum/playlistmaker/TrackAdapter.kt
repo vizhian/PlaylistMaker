@@ -28,6 +28,7 @@ class TrackAdapter(private val onElementClick: (Track) -> Unit) :
     override fun getItemCount() = trackList.size
 
     fun updateTrackList(newTrackList: List<Track>) {
+        if (trackList == newTrackList) return
         trackList.clear()
         trackList.addAll(newTrackList)
         notifyDataSetChanged()

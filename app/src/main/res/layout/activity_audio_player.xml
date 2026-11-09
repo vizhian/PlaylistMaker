@@ -97,6 +97,7 @@
             android:layout_marginTop="@dimen/large_margin"
             android:background="@null"
             android:contentDescription="@string/play"
+            android:enabled="false"
             android:padding="8dp"
             android:src="@drawable/ic_track_play_button"
             app:layout_constraintBottom_toTopOf="@id/current_track_time"
