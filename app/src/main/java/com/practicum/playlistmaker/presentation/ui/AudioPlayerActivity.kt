@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.presentation.ui
 
 import android.os.Bundle
 import android.os.Handler
@@ -17,6 +17,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.di.Creator
+import com.practicum.playlistmaker.domain.api.AudioPlayerInteractor
+import com.practicum.playlistmaker.domain.api.AudioPlayerState
+import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.presentation.presenters.TrackParcelable
 import kotlinx.coroutines.Runnable
 import java.sql.Date
 import java.text.SimpleDateFormat
@@ -25,7 +31,7 @@ import java.util.TimeZone
 
 class AudioPlayerActivity : AppCompatActivity() {
     private lateinit var track: Track
-    private val audioPlayer by lazy { AudioPlayer(track.previewUrl) }
+    private val audioPlayer: AudioPlayerInteractor by lazy { Creator.audioPlayer(track.previewUrl) }
     private val dpRadiusTrackArt: RoundedCorners by lazy {
         RoundedCorners(
             TypedValue.applyDimension(
@@ -133,10 +139,11 @@ class AudioPlayerActivity : AppCompatActivity() {
     }
 
     private fun initializeTrack(): Boolean {
-        val trackOrNull = intent.extras?.let {
-            BundleCompat.getParcelable(it, Track.EXTRA_TRACK, Track::class.java)
+        val trackParcelable = intent.extras?.let {
+            BundleCompat.getParcelable(it, TrackParcelable.EXTRA_TRACK, TrackParcelable::class.java)
         } ?: return false
-        track = trackOrNull
+
+        track = trackParcelable.toTrack()
         return true
     }
 
@@ -163,28 +170,28 @@ class AudioPlayerActivity : AppCompatActivity() {
 
     private fun updateState() {
         when (audioPlayer.state) {
-            AudioPlayer.STATE_DEFAULT -> {
+            AudioPlayerState.DEFAULT -> {
                 configurePlayButton(false, R.drawable.ic_track_play_button)
                 stopUpdateCurrentTrackTime()
             }
 
-            AudioPlayer.STATE_PREPARED -> {
+            AudioPlayerState.PREPARED -> {
                 configurePlayButton(true, R.drawable.ic_track_play_button)
                 stopUpdateCurrentTrackTime()
                 currentTrackTime.text = DEFAULT_CURRENT_TRACK_TIME
             }
 
-            AudioPlayer.STATE_PLAYING -> {
+            AudioPlayerState.PLAYING -> {
                 configurePlayButton(true, R.drawable.ic_track_pause_button)
                 startUpdateCurrentTrackTime()
             }
 
-            AudioPlayer.STATE_PAUSED -> {
+            AudioPlayerState.PAUSED -> {
                 configurePlayButton(true, R.drawable.ic_track_play_button)
                 stopUpdateCurrentTrackTime()
             }
 
-            AudioPlayer.STATE_RELEASED -> {
+            AudioPlayerState.RELEASED -> {
                 configurePlayButton(false, R.drawable.ic_track_play_button)
                 stopUpdateCurrentTrackTime()
             }

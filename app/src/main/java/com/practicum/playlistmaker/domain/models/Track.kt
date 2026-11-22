@@ -1,13 +1,10 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.domain.models
 
-import android.os.Parcelable
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.ZoneId
 import java.util.Locale
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class Track(
     val trackId: String,
     val trackName: String,
@@ -19,7 +16,7 @@ data class Track(
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String
-) : Parcelable {
+) {
     val trackTime: String
         get() = formatIntToMMSS(trackTimeMillis)
 
@@ -32,8 +29,6 @@ data class Track(
                 artworkUrl100.substringAfterLast("/").replace("100x100bb", "512x512bb")
 
     companion object {
-        const val EXTRA_TRACK = "track"
-
         private val timeFormatter = SimpleDateFormat("mm:ss", Locale.getDefault())
 
         fun formatIntToMMSS(trackTimeMillis: Int): String {

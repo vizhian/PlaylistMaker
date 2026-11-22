@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.presentation.ui
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -11,6 +11,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.net.toUri
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.di.Creator
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(svedInstanceState: Bundle?) {
@@ -56,10 +58,10 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitchMaterial)
-        val app = (application as MyApp)
-        themeSwitcher.isChecked = app.isDarkTheme()
+        themeSwitcher.isChecked = Creator.darkThemeInteractor.getDarkTheme()
         themeSwitcher.setOnCheckedChangeListener { _, checked ->
-            app.switchTheme(checked)
+            Creator.darkThemeInteractor.putDarkTheme(checked)
+            Creator.themeApplier.applyTheme(checked)
         }
     }
 

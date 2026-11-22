@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.button.MaterialButton
+import com.practicum.playlistmaker.R
 import kotlin.reflect.KClass
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setButtonNavigation(id: Int, cls: KClass<*>) {
-        val button = findViewById<com.google.android.material.button.MaterialButton>(id)
+        val button = findViewById<MaterialButton>(id)
         button.setOnClickListener {
             val intent = Intent(this, cls.java)
             startActivity(intent)
