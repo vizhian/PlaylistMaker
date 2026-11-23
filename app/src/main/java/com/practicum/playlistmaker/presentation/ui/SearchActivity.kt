@@ -67,7 +67,7 @@ class SearchActivity : AppCompatActivity() {
         initializeToolbar(R.string.search)
 
         presenter =
-            SearchActivityPresenter(Creator.SearchHistoryInteractor, Creator.searchInteractor)
+            SearchActivityPresenter(Creator.searchHistoryInteractor, Creator.searchInteractor)
 
         trackAdapter = TrackAdapter { track ->
             if (!isClickAllowed()) return@TrackAdapter

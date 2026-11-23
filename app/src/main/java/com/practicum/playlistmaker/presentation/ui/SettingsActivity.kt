@@ -73,5 +73,4 @@ class SettingsActivity : AppCompatActivity() {
                 .show()
         }
     }
-
 }

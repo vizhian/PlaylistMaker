@@ -1,7 +1,7 @@
 package com.practicum.playlistmaker.di
 
 import android.content.Context
-import com.practicum.playlistmaker.data.network.AudioPlayerImpl
+import com.practicum.playlistmaker.data.service.AudioPlayerImpl
 import com.practicum.playlistmaker.data.network.RetrofitItunesImpl
 import com.practicum.playlistmaker.data.repository.DarkThemeRepositoryImpl
 import com.practicum.playlistmaker.data.repository.SearchHistoryRepositoryImpl
@@ -22,7 +22,6 @@ import java.util.concurrent.Executors
 object Creator {
     private const val PREFS_APP_NAME = "my_app_preferences"
     private const val PREFS_HISTORY_NAME = "search_history_storage"
-
     private const val SEARCH_URL = "https://itunes.apple.com/"
 
     private lateinit var appContext: Context
@@ -44,7 +43,7 @@ object Creator {
 
     val themeApplier by lazy { ThemeApplier() }
 
-    val SearchHistoryInteractor: SearchHistoryInteractor by lazy {
+    val searchHistoryInteractor: SearchHistoryInteractor by lazy {
         SearchHistoryInteractorImpl(
             SearchHistoryRepositoryImpl(
                 SharedPreferencesImpl(appContext, PREFS_HISTORY_NAME)
@@ -61,5 +60,4 @@ object Creator {
     fun audioPlayer(url: String): AudioPlayerInteractor {
         return AudioPlayerInteractorImp(AudioPlayerImpl(url))
     }
-
 }

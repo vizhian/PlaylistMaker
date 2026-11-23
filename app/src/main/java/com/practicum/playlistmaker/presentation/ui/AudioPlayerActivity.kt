@@ -215,6 +215,5 @@ class AudioPlayerActivity : AppCompatActivity() {
         private const val UPDATE_CURRENT_TRACK_TIME_DELAY = 500L
         private const val DEFAULT_CURRENT_TRACK_TIME = "00:00"
     }
-
 }
 
