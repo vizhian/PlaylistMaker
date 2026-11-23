@@ -1,10 +1,11 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.presentation.ui
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.practicum.playlistmaker.R
 
 class ClearButtonAdapter(private val onClearClick: () -> Unit) :
     RecyclerView.Adapter<ClearButtonAdapter.ViewHolder>() {

@@ -1,4 +1,4 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -22,6 +22,11 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.di.Creator
+import com.practicum.playlistmaker.presentation.presenters.SearchActivityPresenter
+import com.practicum.playlistmaker.presentation.presenters.SearchScreenState
+import com.practicum.playlistmaker.presentation.presenters.TrackParcelable
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var presenter: SearchActivityPresenter
@@ -61,15 +66,16 @@ class SearchActivity : AppCompatActivity() {
 
         initializeToolbar(R.string.search)
 
-        val myApp = (application as MyApp)
-        presenter = SearchActivityPresenter(myApp.repository, myApp.historyStorage)
+        presenter =
+            SearchActivityPresenter(Creator.searchHistoryInteractor, Creator.searchInteractor)
+
         trackAdapter = TrackAdapter { track ->
             if (!isClickAllowed()) return@TrackAdapter
             presenter.addTrackToHistory(track)
             val intent = Intent(
                 this@SearchActivity,
                 AudioPlayerActivity::class.java
-            ).apply { putExtra(Track.EXTRA_TRACK, track) }
+            ).apply { putExtra(TrackParcelable.EXTRA_TRACK, TrackParcelable(track)) }
             startActivity(intent)
         }
         clearButtonAdapter = ClearButtonAdapter({ presenter.clearTrackHistory() })
@@ -246,5 +252,4 @@ class SearchActivity : AppCompatActivity() {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
-
 }
